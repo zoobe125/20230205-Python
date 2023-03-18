@@ -1,0 +1,3514 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/zoobe125/20230205-Python/blob/main/20230318.ipynb-T\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "# 20230318筆記"
+      ],
+      "metadata": {
+        "id": "Skw7wWpeU0Kj"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## 使用 gradio 產生使用者介面\n",
+        "\n",
+        "Documentation:\n",
+        "\n",
+        "* https://gradio.app/"
+      ],
+      "metadata": {
+        "id": "0BBbaY77U9dC"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### 安裝 gradio"
+      ],
+      "metadata": {
+        "id": "qF9xlptcVMAG"
+      }
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "wVZbQ9F0Uw9S"
+      },
+      "outputs": [],
+      "source": [
+        "!pip install gradio"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### gradio的hello world程式"
+      ],
+      "metadata": {
+        "id": "K7bt4bEgV4_J"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import gradio as gr"
+      ],
+      "metadata": {
+        "id": "vFUfXKZzVRXk"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def hello(name):\n",
+        "  return f\"Hello, {name}!\""
+      ],
+      "metadata": {
+        "id": "HyIRgLk4Wkk5"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "hello('Victor')"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 36
+        },
+        "id": "LkGEr6mFXBTG",
+        "outputId": "33f5da74-c82e-4af8-f240-a8db7077f57e"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "'Hello, Victor!'"
+            ],
+            "application/vnd.google.colaboratory.intrinsic+json": {
+              "type": "string"
+            }
+          },
+          "metadata": {},
+          "execution_count": 6
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "gr.Interface(hello, \"text\", \"text\").launch(share=True)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 612
+        },
+        "id": "ZVQgYnqzWa7e",
+        "outputId": "ab73f8d6-40ff-4bea-9184-da9d32657d78"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Colab notebook detected. To show errors in colab notebook, set debug=True in launch()\n",
+            "Running on public URL: https://a6224c16ff7d633428.gradio.live\n",
+            "\n",
+            "This share link expires in 72 hours. For free permanent hosting and GPU upgrades (NEW!), check out Spaces: https://huggingface.co/spaces\n"
+          ]
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<IPython.core.display.HTML object>"
+            ],
+            "text/html": [
+              "<div><iframe src=\"https://a6224c16ff7d633428.gradio.live\" width=\"100%\" height=\"500\" allow=\"autoplay; camera; microphone; clipboard-read; clipboard-write;\" frameborder=\"0\" allowfullscreen></iframe></div>"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": []
+          },
+          "metadata": {},
+          "execution_count": 8
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### 多個輸入，單一輸出"
+      ],
+      "metadata": {
+        "id": "jygdDTX_Y0Vm"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def bmi(h, w):\n",
+        "  return w/h**2"
+      ],
+      "metadata": {
+        "id": "AhRAbUMGXMn7"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "bmi(1.83, 80)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "y4x-FcodZBx_",
+        "outputId": "dea8c41b-f2df-4519-acce-e34edf7757f2"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "23.888440980620498"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 10
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "gr.Interface(bmi, ['number', 'number'], 'text').launch()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 618
+        },
+        "id": "i7ODsWUzZGLV",
+        "outputId": "c82b3099-54df-41d7-cac9-51e56ecf7e2f"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Colab notebook detected. To show errors in colab notebook, set debug=True in launch()\n",
+            "Note: opening Chrome Inspector may crash demo inside Colab notebooks.\n",
+            "\n",
+            "To create a public link, set `share=True` in `launch()`.\n"
+          ]
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<IPython.core.display.Javascript object>"
+            ],
+            "application/javascript": [
+              "(async (port, path, width, height, cache, element) => {\n",
+              "                        if (!google.colab.kernel.accessAllowed && !cache) {\n",
+              "                            return;\n",
+              "                        }\n",
+              "                        element.appendChild(document.createTextNode(''));\n",
+              "                        const url = await google.colab.kernel.proxyPort(port, {cache});\n",
+              "\n",
+              "                        const external_link = document.createElement('div');\n",
+              "                        external_link.innerHTML = `\n",
+              "                            <div style=\"font-family: monospace; margin-bottom: 0.5rem\">\n",
+              "                                Running on <a href=${new URL(path, url).toString()} target=\"_blank\">\n",
+              "                                    https://localhost:${port}${path}\n",
+              "                                </a>\n",
+              "                            </div>\n",
+              "                        `;\n",
+              "                        element.appendChild(external_link);\n",
+              "\n",
+              "                        const iframe = document.createElement('iframe');\n",
+              "                        iframe.src = new URL(path, url).toString();\n",
+              "                        iframe.height = height;\n",
+              "                        iframe.allow = \"autoplay; camera; microphone; clipboard-read; clipboard-write;\"\n",
+              "                        iframe.width = width;\n",
+              "                        iframe.style.border = 0;\n",
+              "                        element.appendChild(iframe);\n",
+              "                    })(7862, \"/\", \"100%\", 500, false, window.element)"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": []
+          },
+          "metadata": {},
+          "execution_count": 11
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### 使用圖片輸入/輸出"
+      ],
+      "metadata": {
+        "id": "W4MFuSXday4C"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def process(image):\n",
+        "  # 處理 image\n",
+        "  return image"
+      ],
+      "metadata": {
+        "id": "9MbhZn80ZYkN"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "gr.Interface(process, \"image\", \"image\").launch()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 618
+        },
+        "id": "6cw5OyewbNzg",
+        "outputId": "f5189b48-55a5-4b5c-d05b-6bb309e6a515"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Colab notebook detected. To show errors in colab notebook, set debug=True in launch()\n",
+            "Note: opening Chrome Inspector may crash demo inside Colab notebooks.\n",
+            "\n",
+            "To create a public link, set `share=True` in `launch()`.\n"
+          ]
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<IPython.core.display.Javascript object>"
+            ],
+            "application/javascript": [
+              "(async (port, path, width, height, cache, element) => {\n",
+              "                        if (!google.colab.kernel.accessAllowed && !cache) {\n",
+              "                            return;\n",
+              "                        }\n",
+              "                        element.appendChild(document.createTextNode(''));\n",
+              "                        const url = await google.colab.kernel.proxyPort(port, {cache});\n",
+              "\n",
+              "                        const external_link = document.createElement('div');\n",
+              "                        external_link.innerHTML = `\n",
+              "                            <div style=\"font-family: monospace; margin-bottom: 0.5rem\">\n",
+              "                                Running on <a href=${new URL(path, url).toString()} target=\"_blank\">\n",
+              "                                    https://localhost:${port}${path}\n",
+              "                                </a>\n",
+              "                            </div>\n",
+              "                        `;\n",
+              "                        element.appendChild(external_link);\n",
+              "\n",
+              "                        const iframe = document.createElement('iframe');\n",
+              "                        iframe.src = new URL(path, url).toString();\n",
+              "                        iframe.height = height;\n",
+              "                        iframe.allow = \"autoplay; camera; microphone; clipboard-read; clipboard-write;\"\n",
+              "                        iframe.width = width;\n",
+              "                        iframe.style.border = 0;\n",
+              "                        element.appendChild(iframe);\n",
+              "                    })(7863, \"/\", \"100%\", 500, false, window.element)"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": []
+          },
+          "metadata": {},
+          "execution_count": 13
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "gr.Interface(process, \"webcam\", \"image\").launch()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 618
+        },
+        "id": "Vkj_HX03bTDf",
+        "outputId": "c4dcb376-cb35-4f83-e722-d00d3423bbff"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Colab notebook detected. To show errors in colab notebook, set debug=True in launch()\n",
+            "Note: opening Chrome Inspector may crash demo inside Colab notebooks.\n",
+            "\n",
+            "To create a public link, set `share=True` in `launch()`.\n"
+          ]
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<IPython.core.display.Javascript object>"
+            ],
+            "application/javascript": [
+              "(async (port, path, width, height, cache, element) => {\n",
+              "                        if (!google.colab.kernel.accessAllowed && !cache) {\n",
+              "                            return;\n",
+              "                        }\n",
+              "                        element.appendChild(document.createTextNode(''));\n",
+              "                        const url = await google.colab.kernel.proxyPort(port, {cache});\n",
+              "\n",
+              "                        const external_link = document.createElement('div');\n",
+              "                        external_link.innerHTML = `\n",
+              "                            <div style=\"font-family: monospace; margin-bottom: 0.5rem\">\n",
+              "                                Running on <a href=${new URL(path, url).toString()} target=\"_blank\">\n",
+              "                                    https://localhost:${port}${path}\n",
+              "                                </a>\n",
+              "                            </div>\n",
+              "                        `;\n",
+              "                        element.appendChild(external_link);\n",
+              "\n",
+              "                        const iframe = document.createElement('iframe');\n",
+              "                        iframe.src = new URL(path, url).toString();\n",
+              "                        iframe.height = height;\n",
+              "                        iframe.allow = \"autoplay; camera; microphone; clipboard-read; clipboard-write;\"\n",
+              "                        iframe.width = width;\n",
+              "                        iframe.style.border = 0;\n",
+              "                        element.appendChild(iframe);\n",
+              "                    })(7864, \"/\", \"100%\", 500, false, window.element)"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": []
+          },
+          "metadata": {},
+          "execution_count": 14
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### 應用：使用YOLO v5做物件辨識"
+      ],
+      "metadata": {
+        "id": "R7e5835md9JF"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install torch"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "R-EFH6aobk-X",
+        "outputId": "9f4a1fbe-025e-4d7e-8e93-93a197c7e826"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\n",
+            "Requirement already satisfied: torch in /usr/local/lib/python3.9/dist-packages (1.13.1+cu116)\n",
+            "Requirement already satisfied: typing-extensions in /usr/local/lib/python3.9/dist-packages (from torch) (4.5.0)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import torch\n",
+        "from PIL import Image\n",
+        "\n",
+        "model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)\n",
+        "\n",
+        "def process(image):\n",
+        "  image = Image.fromarray(image)\n",
+        "  image.thumbnail((1024, 1024))\n",
+        "  results = model(image, augment=True)\n",
+        "  results.save()\n",
+        "  return results.ims[0]"
+      ],
+      "metadata": {
+        "id": "v4Ep0nrUeObW"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "gr.Interface(process, \"image\", \"image\").launch()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 618
+        },
+        "id": "963q2KoWeVh1",
+        "outputId": "6878ede7-6160-4913-f766-503cc635ee32"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Colab notebook detected. To show errors in colab notebook, set debug=True in launch()\n",
+            "Note: opening Chrome Inspector may crash demo inside Colab notebooks.\n",
+            "\n",
+            "To create a public link, set `share=True` in `launch()`.\n"
+          ]
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<IPython.core.display.Javascript object>"
+            ],
+            "application/javascript": [
+              "(async (port, path, width, height, cache, element) => {\n",
+              "                        if (!google.colab.kernel.accessAllowed && !cache) {\n",
+              "                            return;\n",
+              "                        }\n",
+              "                        element.appendChild(document.createTextNode(''));\n",
+              "                        const url = await google.colab.kernel.proxyPort(port, {cache});\n",
+              "\n",
+              "                        const external_link = document.createElement('div');\n",
+              "                        external_link.innerHTML = `\n",
+              "                            <div style=\"font-family: monospace; margin-bottom: 0.5rem\">\n",
+              "                                Running on <a href=${new URL(path, url).toString()} target=\"_blank\">\n",
+              "                                    https://localhost:${port}${path}\n",
+              "                                </a>\n",
+              "                            </div>\n",
+              "                        `;\n",
+              "                        element.appendChild(external_link);\n",
+              "\n",
+              "                        const iframe = document.createElement('iframe');\n",
+              "                        iframe.src = new URL(path, url).toString();\n",
+              "                        iframe.height = height;\n",
+              "                        iframe.allow = \"autoplay; camera; microphone; clipboard-read; clipboard-write;\"\n",
+              "                        iframe.width = width;\n",
+              "                        iframe.style.border = 0;\n",
+              "                        element.appendChild(iframe);\n",
+              "                    })(7867, \"/\", \"100%\", 500, false, window.element)"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": []
+          },
+          "metadata": {},
+          "execution_count": 19
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## 將 gradio 的 App 佈署到雲端\n",
+        "\n",
+        "使用 https://huggingface.co/"
+      ],
+      "metadata": {
+        "id": "R5EeB3DZZ2AC"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### 進一步修改使用者介面\n",
+        "\n",
+        "以bmi程式為例！"
+      ],
+      "metadata": {
+        "id": "a2avBqKUk55N"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "gr.Interface(bmi, ['number', 'number'], 'text').launch()"
+      ],
+      "metadata": {
+        "id": "FRNI6zQTVIWS"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "gr.Interface(bmi, ['number', 'number'], gr.Text(label=\"bmi\")).launch()"
+      ],
+      "metadata": {
+        "id": "1wOkU1iolLsC"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "gr.Interface(bmi, [gr.Number(label=\"身高(m)\"), 'number'], gr.Text(label=\"bmi\")).launch()"
+      ],
+      "metadata": {
+        "id": "D9BLvZ5plSpw"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "gr.Interface(bmi,\n",
+        "             [gr.Number(label=\"身高(公尺)\"), gr.Number(label=\"體重(公斤)\")], \n",
+        "             gr.Text(label=\"bmi\"),\n",
+        "             title=\"計算BMI\").launch(share=True)"
+      ],
+      "metadata": {
+        "id": "o06Y99cjlg4i"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "gr.Interface(bmi,\n",
+        "             [gr.Number(label=\"身高(公尺)\"), gr.Number(label=\"體重(公斤)\")], \n",
+        "             gr.Text(label=\"bmi\"),\n",
+        "             title=\"計算BMI\",\n",
+        "             description=\"請填入身高及體重後，點擊submit做運算！\").launch(share=True)"
+      ],
+      "metadata": {
+        "id": "mkgYLOH7mT_w"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### 應用：輸入股票代號，輸入最後五筆股價歷史資料"
+      ],
+      "metadata": {
+        "id": "L0lJfEf0oxsd"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install yfinance"
+      ],
+      "metadata": {
+        "id": "zxCDVEuInB8q"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import yfinance as yf"
+      ],
+      "metadata": {
+        "id": "B9VaBbQZo6Rc"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def get_quotes(symbol):\n",
+        "  df = yf.download(symbol)\n",
+        "  return df.tail()"
+      ],
+      "metadata": {
+        "id": "d3hYPw5yo_Va"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "gr.Interface(get_quotes, \"text\", gr.DataFrame()).launch()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 618
+        },
+        "id": "MArnnZFYpJUt",
+        "outputId": "58f0f491-ae98-499b-b85c-52654e4d0333"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Colab notebook detected. To show errors in colab notebook, set debug=True in launch()\n",
+            "Note: opening Chrome Inspector may crash demo inside Colab notebooks.\n",
+            "\n",
+            "To create a public link, set `share=True` in `launch()`.\n"
+          ]
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<IPython.core.display.Javascript object>"
+            ],
+            "application/javascript": [
+              "(async (port, path, width, height, cache, element) => {\n",
+              "                        if (!google.colab.kernel.accessAllowed && !cache) {\n",
+              "                            return;\n",
+              "                        }\n",
+              "                        element.appendChild(document.createTextNode(''));\n",
+              "                        const url = await google.colab.kernel.proxyPort(port, {cache});\n",
+              "\n",
+              "                        const external_link = document.createElement('div');\n",
+              "                        external_link.innerHTML = `\n",
+              "                            <div style=\"font-family: monospace; margin-bottom: 0.5rem\">\n",
+              "                                Running on <a href=${new URL(path, url).toString()} target=\"_blank\">\n",
+              "                                    https://localhost:${port}${path}\n",
+              "                                </a>\n",
+              "                            </div>\n",
+              "                        `;\n",
+              "                        element.appendChild(external_link);\n",
+              "\n",
+              "                        const iframe = document.createElement('iframe');\n",
+              "                        iframe.src = new URL(path, url).toString();\n",
+              "                        iframe.height = height;\n",
+              "                        iframe.allow = \"autoplay; camera; microphone; clipboard-read; clipboard-write;\"\n",
+              "                        iframe.width = width;\n",
+              "                        iframe.style.border = 0;\n",
+              "                        element.appendChild(iframe);\n",
+              "                    })(7874, \"/\", \"100%\", 500, false, window.element)"
+            ]
+          },
+          "metadata": {}
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": []
+          },
+          "metadata": {},
+          "execution_count": 29
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Scikit-Learn 簡介"
+      ],
+      "metadata": {
+        "id": "vjHnzQgJKQ2h"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### 準備資料\n",
+        "\n",
+        "使用鳶尾花(iris)資料集。\n",
+        "\n",
+        "https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html"
+      ],
+      "metadata": {
+        "id": "cd4PQ-ztNX2o"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from sklearn.datasets import load_iris"
+      ],
+      "metadata": {
+        "id": "1C4iS6--pTik"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "iris = load_iris()"
+      ],
+      "metadata": {
+        "id": "-USIIopdNj9Z"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "iris.feature_names"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "nDc9UJcCNqGE",
+        "outputId": "3a6ea0e7-6f9f-47bd-c7ff-b4656dee526d"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['sepal length (cm)',\n",
+              " 'sepal width (cm)',\n",
+              " 'petal length (cm)',\n",
+              " 'petal width (cm)']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 3
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "iris.target_names"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "4vshzGK4OAKW",
+        "outputId": "a591827e-7156-4022-a01e-3e88118a92f4"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array(['setosa', 'versicolor', 'virginica'], dtype='<U10')"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 4
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "X = iris.data\n",
+        "Y = iris.target"
+      ],
+      "metadata": {
+        "id": "22vOdmw6OEig"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "len(X)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "xIQtGodBOSDB",
+        "outputId": "2765945d-a8b2-45aa-db42-b7271d5127a6"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "150"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 7
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "X.shape"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "QB4pCXWcOyhU",
+        "outputId": "5a016f1b-5ad4-4812-cfbe-dc28183e1bf1"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(150, 4)"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 8
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "X[0]"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "7VHBwR1QO7OE",
+        "outputId": "495c6d7e-2d2e-4b67-f79f-5be18fd747d9"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([5.1, 3.5, 1.4, 0.2])"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 9
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### 產生訓練集(Training Set)跟測試集(Testing Set)"
+      ],
+      "metadata": {
+        "id": "HLzSO_YJPIXK"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from sklearn.model_selection import train_test_split"
+      ],
+      "metadata": {
+        "id": "LDbg8rKDO91X"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=0)"
+      ],
+      "metadata": {
+        "id": "UDoZd9DLPswW"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "len(x_train)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "KYPD3yaAQRhe",
+        "outputId": "0ac1cb61-56d9-4fda-e6d3-8d4d5b667a63"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "120"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 12
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### 訓練模型來做分類"
+      ],
+      "metadata": {
+        "id": "bYwFTPSBQalH"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "#### 使用SVM (Support Vector Machine)"
+      ],
+      "metadata": {
+        "id": "ARbJuEfcQxXp"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 1. 載入模型\n",
+        "from sklearn.svm import SVC"
+      ],
+      "metadata": {
+        "id": "bTpw0XuFQTC_"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 2. 建立模型\n",
+        "clf = SVC()"
+      ],
+      "metadata": {
+        "id": "V5N_x3dvQom6"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 3. 訓練模型\n",
+        "clf.fit(x_train, y_train)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 52
+        },
+        "id": "GRKFzTk1QrrX",
+        "outputId": "1a2a49a6-c9ff-4ce1-de57-ab232a1fe744"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "SVC()"
+            ],
+            "text/html": [
+              "<style>#sk-container-id-1 {color: black;background-color: white;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: \"▸\";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: \"▾\";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: \"\";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: \"\";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: \"\";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div id=\"sk-container-id-1\" class=\"sk-top-container\"><div class=\"sk-text-repr-fallback\"><pre>SVC()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class=\"sk-container\" hidden><div class=\"sk-item\"><div class=\"sk-estimator sk-toggleable\"><input class=\"sk-toggleable__control sk-hidden--visually\" id=\"sk-estimator-id-1\" type=\"checkbox\" checked><label for=\"sk-estimator-id-1\" class=\"sk-toggleable__label sk-toggleable__label-arrow\">SVC</label><div class=\"sk-toggleable__content\"><pre>SVC()</pre></div></div></div></div></div>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 15
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 4. 評估模型準確度\n",
+        "clf.score(x_test, y_test)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "cEeOw0BfQtiy",
+        "outputId": "c4bc9f30-01c6-4137-cb67-b6b15ae6d62e"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "1.0"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 21
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "clf.score?"
+      ],
+      "metadata": {
+        "id": "mnCdeb5KRidq"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 5. 使用模型\n",
+        "y_predict = clf.predict(x_test)"
+      ],
+      "metadata": {
+        "id": "RVhVM2c1RyAv"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "y_predict"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "BPrh5n5cRQqb",
+        "outputId": "26fa6b19-b8a1-452c-cf90-4f5746456b82"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([2, 1, 0, 2, 0, 2, 0, 1, 1, 1, 2, 1, 1, 1, 1, 0, 1, 1, 0, 0, 2, 1,\n",
+              "       0, 0, 2, 0, 0, 1, 1, 0])"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 17
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "#### 使用Random Forest\n",
+        "\n",
+        "https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html"
+      ],
+      "metadata": {
+        "id": "rn2hDKOsSlFy"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 1. 載入模型\n",
+        "from sklearn.ensemble import RandomForestClassifier"
+      ],
+      "metadata": {
+        "id": "fVWt6ScDSk1Q"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 2. 建立模型\n",
+        "clf = RandomForestClassifier()"
+      ],
+      "metadata": {
+        "id": "I2fEQaphSuqc"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 3. 訓練模型\n",
+        "clf.fit(x_train, y_train)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 75
+        },
+        "id": "aFzcZT17SwfS",
+        "outputId": "83eb570c-494b-4f0d-fd60-eac4c6e0f25f"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "RandomForestClassifier()"
+            ],
+            "text/html": [
+              "<style>#sk-container-id-2 {color: black;background-color: white;}#sk-container-id-2 pre{padding: 0;}#sk-container-id-2 div.sk-toggleable {background-color: white;}#sk-container-id-2 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-2 label.sk-toggleable__label-arrow:before {content: \"▸\";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-2 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-2 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-2 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-2 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-2 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-2 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: \"▾\";}#sk-container-id-2 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-2 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-2 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-2 div.sk-parallel-item::after {content: \"\";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-2 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-serial::before {content: \"\";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-2 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-2 div.sk-item {position: relative;z-index: 1;}#sk-container-id-2 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-2 div.sk-item::before, #sk-container-id-2 div.sk-parallel-item::before {content: \"\";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-2 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-2 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-2 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-2 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-2 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-2 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-2 div.sk-label-container {text-align: center;}#sk-container-id-2 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-2 div.sk-text-repr-fallback {display: none;}</style><div id=\"sk-container-id-2\" class=\"sk-top-container\"><div class=\"sk-text-repr-fallback\"><pre>RandomForestClassifier()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class=\"sk-container\" hidden><div class=\"sk-item\"><div class=\"sk-estimator sk-toggleable\"><input class=\"sk-toggleable__control sk-hidden--visually\" id=\"sk-estimator-id-2\" type=\"checkbox\" checked><label for=\"sk-estimator-id-2\" class=\"sk-toggleable__label sk-toggleable__label-arrow\">RandomForestClassifier</label><div class=\"sk-toggleable__content\"><pre>RandomForestClassifier()</pre></div></div></div></div></div>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 24
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 4. 評估模型準確度\n",
+        "clf.score(x_test, y_test)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Ifb4i7cISyTb",
+        "outputId": "94b1fcbc-5157-46ca-c490-7a25121e4f68"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "1.0"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 25
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### 應用：使用sklearn做股票漲跌預測\n",
+        "\n",
+        "只用開、高、低、收、成交量來做預測。"
+      ],
+      "metadata": {
+        "id": "VeQSpdGcXFPZ"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install yfinance"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "FlbohOc8TWRo",
+        "outputId": "c5c28caf-5a7e-4bca-f087-7f7745afcc16"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\n",
+            "Collecting yfinance\n",
+            "  Downloading yfinance-0.2.12-py2.py3-none-any.whl (59 kB)\n",
+            "\u001b[2K     \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m59.2/59.2 KB\u001b[0m \u001b[31m4.6 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hRequirement already satisfied: pytz>=2022.5 in /usr/local/lib/python3.9/dist-packages (from yfinance) (2022.7.1)\n",
+            "Requirement already satisfied: numpy>=1.16.5 in /usr/local/lib/python3.9/dist-packages (from yfinance) (1.22.4)\n",
+            "Collecting cryptography>=3.3.2\n",
+            "  Downloading cryptography-39.0.2-cp36-abi3-manylinux_2_28_x86_64.whl (4.2 MB)\n",
+            "\u001b[2K     \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m4.2/4.2 MB\u001b[0m \u001b[31m34.9 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hCollecting appdirs>=1.4.4\n",
+            "  Downloading appdirs-1.4.4-py2.py3-none-any.whl (9.6 kB)\n",
+            "Requirement already satisfied: pandas>=1.3.0 in /usr/local/lib/python3.9/dist-packages (from yfinance) (1.4.4)\n",
+            "Requirement already satisfied: multitasking>=0.0.7 in /usr/local/lib/python3.9/dist-packages (from yfinance) (0.0.11)\n",
+            "Requirement already satisfied: requests>=2.26 in /usr/local/lib/python3.9/dist-packages (from yfinance) (2.27.1)\n",
+            "Collecting frozendict>=2.3.4\n",
+            "  Downloading frozendict-2.3.5-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (112 kB)\n",
+            "\u001b[2K     \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m112.8/112.8 KB\u001b[0m \u001b[31m12.5 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hRequirement already satisfied: html5lib>=1.1 in /usr/local/lib/python3.9/dist-packages (from yfinance) (1.1)\n",
+            "Requirement already satisfied: beautifulsoup4>=4.11.1 in /usr/local/lib/python3.9/dist-packages (from yfinance) (4.11.2)\n",
+            "Requirement already satisfied: lxml>=4.9.1 in /usr/local/lib/python3.9/dist-packages (from yfinance) (4.9.2)\n",
+            "Requirement already satisfied: soupsieve>1.2 in /usr/local/lib/python3.9/dist-packages (from beautifulsoup4>=4.11.1->yfinance) (2.4)\n",
+            "Requirement already satisfied: cffi>=1.12 in /usr/local/lib/python3.9/dist-packages (from cryptography>=3.3.2->yfinance) (1.15.1)\n",
+            "Requirement already satisfied: six>=1.9 in /usr/local/lib/python3.9/dist-packages (from html5lib>=1.1->yfinance) (1.15.0)\n",
+            "Requirement already satisfied: webencodings in /usr/local/lib/python3.9/dist-packages (from html5lib>=1.1->yfinance) (0.5.1)\n",
+            "Requirement already satisfied: python-dateutil>=2.8.1 in /usr/local/lib/python3.9/dist-packages (from pandas>=1.3.0->yfinance) (2.8.2)\n",
+            "Requirement already satisfied: charset-normalizer~=2.0.0 in /usr/local/lib/python3.9/dist-packages (from requests>=2.26->yfinance) (2.0.12)\n",
+            "Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.9/dist-packages (from requests>=2.26->yfinance) (3.4)\n",
+            "Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.9/dist-packages (from requests>=2.26->yfinance) (2022.12.7)\n",
+            "Requirement already satisfied: urllib3<1.27,>=1.21.1 in /usr/local/lib/python3.9/dist-packages (from requests>=2.26->yfinance) (1.26.15)\n",
+            "Requirement already satisfied: pycparser in /usr/local/lib/python3.9/dist-packages (from cffi>=1.12->cryptography>=3.3.2->yfinance) (2.21)\n",
+            "Installing collected packages: appdirs, frozendict, cryptography, yfinance\n",
+            "Successfully installed appdirs-1.4.4 cryptography-39.0.2 frozendict-2.3.5 yfinance-0.2.12\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import yfinance as yf"
+      ],
+      "metadata": {
+        "id": "uziNY-toXeuU"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df = yf.download('TSLA')"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "BiGv7TeYXR1u",
+        "outputId": "da97d04b-bdee-496a-a66f-1307a594b4aa"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\r[*********************100%***********************]  1 of 1 completed\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.tail()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 237
+        },
+        "id": "k_P6ApToXc_4",
+        "outputId": "3e22c025-4886-4e18-dd85-4a36a14ccd58"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "                  Open        High         Low       Close   Adj Close  \\\n",
+              "Date                                                                     \n",
+              "2023-03-13  167.460007  177.350006  163.910004  174.479996  174.479996   \n",
+              "2023-03-14  177.309998  183.800003  177.139999  183.259995  183.259995   \n",
+              "2023-03-15  180.800003  182.339996  176.029999  180.449997  180.449997   \n",
+              "2023-03-16  180.369995  185.809998  178.839996  184.130005  184.130005   \n",
+              "2023-03-17  184.520004  186.220001  177.330002  180.130005  180.130005   \n",
+              "\n",
+              "               Volume  \n",
+              "Date                   \n",
+              "2023-03-13  167790300  \n",
+              "2023-03-14  143717900  \n",
+              "2023-03-15  145995600  \n",
+              "2023-03-16  121374500  \n",
+              "2023-03-17  132936600  "
+            ],
+            "text/html": [
+              "\n",
+              "  <div id=\"df-ffa5c118-1b07-4bf2-98ef-a7d313cdcf67\">\n",
+              "    <div class=\"colab-df-container\">\n",
+              "      <div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>Open</th>\n",
+              "      <th>High</th>\n",
+              "      <th>Low</th>\n",
+              "      <th>Close</th>\n",
+              "      <th>Adj Close</th>\n",
+              "      <th>Volume</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Date</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>2023-03-13</th>\n",
+              "      <td>167.460007</td>\n",
+              "      <td>177.350006</td>\n",
+              "      <td>163.910004</td>\n",
+              "      <td>174.479996</td>\n",
+              "      <td>174.479996</td>\n",
+              "      <td>167790300</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2023-03-14</th>\n",
+              "      <td>177.309998</td>\n",
+              "      <td>183.800003</td>\n",
+              "      <td>177.139999</td>\n",
+              "      <td>183.259995</td>\n",
+              "      <td>183.259995</td>\n",
+              "      <td>143717900</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2023-03-15</th>\n",
+              "      <td>180.800003</td>\n",
+              "      <td>182.339996</td>\n",
+              "      <td>176.029999</td>\n",
+              "      <td>180.449997</td>\n",
+              "      <td>180.449997</td>\n",
+              "      <td>145995600</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2023-03-16</th>\n",
+              "      <td>180.369995</td>\n",
+              "      <td>185.809998</td>\n",
+              "      <td>178.839996</td>\n",
+              "      <td>184.130005</td>\n",
+              "      <td>184.130005</td>\n",
+              "      <td>121374500</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2023-03-17</th>\n",
+              "      <td>184.520004</td>\n",
+              "      <td>186.220001</td>\n",
+              "      <td>177.330002</td>\n",
+              "      <td>180.130005</td>\n",
+              "      <td>180.130005</td>\n",
+              "      <td>132936600</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>\n",
+              "      <button class=\"colab-df-convert\" onclick=\"convertToInteractive('df-ffa5c118-1b07-4bf2-98ef-a7d313cdcf67')\"\n",
+              "              title=\"Convert this dataframe to an interactive table.\"\n",
+              "              style=\"display:none;\">\n",
+              "        \n",
+              "  <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24px\"viewBox=\"0 0 24 24\"\n",
+              "       width=\"24px\">\n",
+              "    <path d=\"M0 0h24v24H0V0z\" fill=\"none\"/>\n",
+              "    <path d=\"M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z\"/><path d=\"M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z\"/>\n",
+              "  </svg>\n",
+              "      </button>\n",
+              "      \n",
+              "  <style>\n",
+              "    .colab-df-container {\n",
+              "      display:flex;\n",
+              "      flex-wrap:wrap;\n",
+              "      gap: 12px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert {\n",
+              "      background-color: #E8F0FE;\n",
+              "      border: none;\n",
+              "      border-radius: 50%;\n",
+              "      cursor: pointer;\n",
+              "      display: none;\n",
+              "      fill: #1967D2;\n",
+              "      height: 32px;\n",
+              "      padding: 0 0 0 0;\n",
+              "      width: 32px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert:hover {\n",
+              "      background-color: #E2EBFA;\n",
+              "      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);\n",
+              "      fill: #174EA6;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert {\n",
+              "      background-color: #3B4455;\n",
+              "      fill: #D2E3FC;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert:hover {\n",
+              "      background-color: #434B5C;\n",
+              "      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);\n",
+              "      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));\n",
+              "      fill: #FFFFFF;\n",
+              "    }\n",
+              "  </style>\n",
+              "\n",
+              "      <script>\n",
+              "        const buttonEl =\n",
+              "          document.querySelector('#df-ffa5c118-1b07-4bf2-98ef-a7d313cdcf67 button.colab-df-convert');\n",
+              "        buttonEl.style.display =\n",
+              "          google.colab.kernel.accessAllowed ? 'block' : 'none';\n",
+              "\n",
+              "        async function convertToInteractive(key) {\n",
+              "          const element = document.querySelector('#df-ffa5c118-1b07-4bf2-98ef-a7d313cdcf67');\n",
+              "          const dataTable =\n",
+              "            await google.colab.kernel.invokeFunction('convertToInteractive',\n",
+              "                                                     [key], {});\n",
+              "          if (!dataTable) return;\n",
+              "\n",
+              "          const docLinkHtml = 'Like what you see? Visit the ' +\n",
+              "            '<a target=\"_blank\" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'\n",
+              "            + ' to learn more about interactive tables.';\n",
+              "          element.innerHTML = '';\n",
+              "          dataTable['output_type'] = 'display_data';\n",
+              "          await google.colab.output.renderOutput(dataTable, element);\n",
+              "          const docLink = document.createElement('div');\n",
+              "          docLink.innerHTML = docLinkHtml;\n",
+              "          element.appendChild(docLink);\n",
+              "        }\n",
+              "      </script>\n",
+              "    </div>\n",
+              "  </div>\n",
+              "  "
+            ]
+          },
+          "metadata": {},
+          "execution_count": 31
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.shape"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Q5thSHv9Xonz",
+        "outputId": "225fecc2-3912-4d78-a49a-4a0cc7a27bff"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(3202, 6)"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 32
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.head()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 237
+        },
+        "id": "MCkTNo5UXvBd",
+        "outputId": "375a723d-1238-48b0-ca78-1213107ada52"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "                Open      High       Low     Close  Adj Close     Volume\n",
+              "Date                                                                    \n",
+              "2010-06-29  1.266667  1.666667  1.169333  1.592667   1.592667  281494500\n",
+              "2010-06-30  1.719333  2.028000  1.553333  1.588667   1.588667  257806500\n",
+              "2010-07-01  1.666667  1.728000  1.351333  1.464000   1.464000  123282000\n",
+              "2010-07-02  1.533333  1.540000  1.247333  1.280000   1.280000   77097000\n",
+              "2010-07-06  1.333333  1.333333  1.055333  1.074000   1.074000  103003500"
+            ],
+            "text/html": [
+              "\n",
+              "  <div id=\"df-3e8571fb-7184-40ad-93dd-654cca5ffe94\">\n",
+              "    <div class=\"colab-df-container\">\n",
+              "      <div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>Open</th>\n",
+              "      <th>High</th>\n",
+              "      <th>Low</th>\n",
+              "      <th>Close</th>\n",
+              "      <th>Adj Close</th>\n",
+              "      <th>Volume</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Date</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>2010-06-29</th>\n",
+              "      <td>1.266667</td>\n",
+              "      <td>1.666667</td>\n",
+              "      <td>1.169333</td>\n",
+              "      <td>1.592667</td>\n",
+              "      <td>1.592667</td>\n",
+              "      <td>281494500</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2010-06-30</th>\n",
+              "      <td>1.719333</td>\n",
+              "      <td>2.028000</td>\n",
+              "      <td>1.553333</td>\n",
+              "      <td>1.588667</td>\n",
+              "      <td>1.588667</td>\n",
+              "      <td>257806500</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2010-07-01</th>\n",
+              "      <td>1.666667</td>\n",
+              "      <td>1.728000</td>\n",
+              "      <td>1.351333</td>\n",
+              "      <td>1.464000</td>\n",
+              "      <td>1.464000</td>\n",
+              "      <td>123282000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2010-07-02</th>\n",
+              "      <td>1.533333</td>\n",
+              "      <td>1.540000</td>\n",
+              "      <td>1.247333</td>\n",
+              "      <td>1.280000</td>\n",
+              "      <td>1.280000</td>\n",
+              "      <td>77097000</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2010-07-06</th>\n",
+              "      <td>1.333333</td>\n",
+              "      <td>1.333333</td>\n",
+              "      <td>1.055333</td>\n",
+              "      <td>1.074000</td>\n",
+              "      <td>1.074000</td>\n",
+              "      <td>103003500</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>\n",
+              "      <button class=\"colab-df-convert\" onclick=\"convertToInteractive('df-3e8571fb-7184-40ad-93dd-654cca5ffe94')\"\n",
+              "              title=\"Convert this dataframe to an interactive table.\"\n",
+              "              style=\"display:none;\">\n",
+              "        \n",
+              "  <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24px\"viewBox=\"0 0 24 24\"\n",
+              "       width=\"24px\">\n",
+              "    <path d=\"M0 0h24v24H0V0z\" fill=\"none\"/>\n",
+              "    <path d=\"M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z\"/><path d=\"M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z\"/>\n",
+              "  </svg>\n",
+              "      </button>\n",
+              "      \n",
+              "  <style>\n",
+              "    .colab-df-container {\n",
+              "      display:flex;\n",
+              "      flex-wrap:wrap;\n",
+              "      gap: 12px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert {\n",
+              "      background-color: #E8F0FE;\n",
+              "      border: none;\n",
+              "      border-radius: 50%;\n",
+              "      cursor: pointer;\n",
+              "      display: none;\n",
+              "      fill: #1967D2;\n",
+              "      height: 32px;\n",
+              "      padding: 0 0 0 0;\n",
+              "      width: 32px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert:hover {\n",
+              "      background-color: #E2EBFA;\n",
+              "      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);\n",
+              "      fill: #174EA6;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert {\n",
+              "      background-color: #3B4455;\n",
+              "      fill: #D2E3FC;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert:hover {\n",
+              "      background-color: #434B5C;\n",
+              "      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);\n",
+              "      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));\n",
+              "      fill: #FFFFFF;\n",
+              "    }\n",
+              "  </style>\n",
+              "\n",
+              "      <script>\n",
+              "        const buttonEl =\n",
+              "          document.querySelector('#df-3e8571fb-7184-40ad-93dd-654cca5ffe94 button.colab-df-convert');\n",
+              "        buttonEl.style.display =\n",
+              "          google.colab.kernel.accessAllowed ? 'block' : 'none';\n",
+              "\n",
+              "        async function convertToInteractive(key) {\n",
+              "          const element = document.querySelector('#df-3e8571fb-7184-40ad-93dd-654cca5ffe94');\n",
+              "          const dataTable =\n",
+              "            await google.colab.kernel.invokeFunction('convertToInteractive',\n",
+              "                                                     [key], {});\n",
+              "          if (!dataTable) return;\n",
+              "\n",
+              "          const docLinkHtml = 'Like what you see? Visit the ' +\n",
+              "            '<a target=\"_blank\" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'\n",
+              "            + ' to learn more about interactive tables.';\n",
+              "          element.innerHTML = '';\n",
+              "          dataTable['output_type'] = 'display_data';\n",
+              "          await google.colab.output.renderOutput(dataTable, element);\n",
+              "          const docLink = document.createElement('div');\n",
+              "          docLink.innerHTML = docLinkHtml;\n",
+              "          element.appendChild(docLink);\n",
+              "        }\n",
+              "      </script>\n",
+              "    </div>\n",
+              "  </div>\n",
+              "  "
+            ]
+          },
+          "metadata": {},
+          "execution_count": 33
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.Close"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "THmXlF4LYMWp",
+        "outputId": "9015a880-3f61-4311-c088-4d47a58aae43"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "Date\n",
+              "2010-06-29      1.592667\n",
+              "2010-06-30      1.588667\n",
+              "2010-07-01      1.464000\n",
+              "2010-07-02      1.280000\n",
+              "2010-07-06      1.074000\n",
+              "                 ...    \n",
+              "2023-03-13    174.479996\n",
+              "2023-03-14    183.259995\n",
+              "2023-03-15    180.449997\n",
+              "2023-03-16    184.130005\n",
+              "2023-03-17    180.130005\n",
+              "Name: Close, Length: 3202, dtype: float64"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 34
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.Close.shift(-1)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "3WagusYgYkEO",
+        "outputId": "8ce87fca-baa0-4b8f-ba8a-4b5ac5890c56"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "Date\n",
+              "2010-06-29      1.588667\n",
+              "2010-06-30      1.464000\n",
+              "2010-07-01      1.280000\n",
+              "2010-07-02      1.074000\n",
+              "2010-07-06      1.053333\n",
+              "                 ...    \n",
+              "2023-03-13    183.259995\n",
+              "2023-03-14    180.449997\n",
+              "2023-03-15    184.130005\n",
+              "2023-03-16    180.130005\n",
+              "2023-03-17           NaN\n",
+              "Name: Close, Length: 3202, dtype: float64"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 36
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df['label'] = (df.Close - df.Close.shift(-1)) < 0"
+      ],
+      "metadata": {
+        "id": "AuvXSLoHYqHr"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.head()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 237
+        },
+        "id": "JPTYI7kiZyYq",
+        "outputId": "d3e21f36-bd66-40a5-f63f-1e9fc76fad02"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "                Open      High       Low     Close  Adj Close     Volume  \\\n",
+              "Date                                                                       \n",
+              "2010-06-29  1.266667  1.666667  1.169333  1.592667   1.592667  281494500   \n",
+              "2010-06-30  1.719333  2.028000  1.553333  1.588667   1.588667  257806500   \n",
+              "2010-07-01  1.666667  1.728000  1.351333  1.464000   1.464000  123282000   \n",
+              "2010-07-02  1.533333  1.540000  1.247333  1.280000   1.280000   77097000   \n",
+              "2010-07-06  1.333333  1.333333  1.055333  1.074000   1.074000  103003500   \n",
+              "\n",
+              "            label  \n",
+              "Date               \n",
+              "2010-06-29  False  \n",
+              "2010-06-30  False  \n",
+              "2010-07-01  False  \n",
+              "2010-07-02  False  \n",
+              "2010-07-06  False  "
+            ],
+            "text/html": [
+              "\n",
+              "  <div id=\"df-4f0f1480-227e-478d-a104-d07476a7572a\">\n",
+              "    <div class=\"colab-df-container\">\n",
+              "      <div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>Open</th>\n",
+              "      <th>High</th>\n",
+              "      <th>Low</th>\n",
+              "      <th>Close</th>\n",
+              "      <th>Adj Close</th>\n",
+              "      <th>Volume</th>\n",
+              "      <th>label</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Date</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>2010-06-29</th>\n",
+              "      <td>1.266667</td>\n",
+              "      <td>1.666667</td>\n",
+              "      <td>1.169333</td>\n",
+              "      <td>1.592667</td>\n",
+              "      <td>1.592667</td>\n",
+              "      <td>281494500</td>\n",
+              "      <td>False</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2010-06-30</th>\n",
+              "      <td>1.719333</td>\n",
+              "      <td>2.028000</td>\n",
+              "      <td>1.553333</td>\n",
+              "      <td>1.588667</td>\n",
+              "      <td>1.588667</td>\n",
+              "      <td>257806500</td>\n",
+              "      <td>False</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2010-07-01</th>\n",
+              "      <td>1.666667</td>\n",
+              "      <td>1.728000</td>\n",
+              "      <td>1.351333</td>\n",
+              "      <td>1.464000</td>\n",
+              "      <td>1.464000</td>\n",
+              "      <td>123282000</td>\n",
+              "      <td>False</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2010-07-02</th>\n",
+              "      <td>1.533333</td>\n",
+              "      <td>1.540000</td>\n",
+              "      <td>1.247333</td>\n",
+              "      <td>1.280000</td>\n",
+              "      <td>1.280000</td>\n",
+              "      <td>77097000</td>\n",
+              "      <td>False</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2010-07-06</th>\n",
+              "      <td>1.333333</td>\n",
+              "      <td>1.333333</td>\n",
+              "      <td>1.055333</td>\n",
+              "      <td>1.074000</td>\n",
+              "      <td>1.074000</td>\n",
+              "      <td>103003500</td>\n",
+              "      <td>False</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>\n",
+              "      <button class=\"colab-df-convert\" onclick=\"convertToInteractive('df-4f0f1480-227e-478d-a104-d07476a7572a')\"\n",
+              "              title=\"Convert this dataframe to an interactive table.\"\n",
+              "              style=\"display:none;\">\n",
+              "        \n",
+              "  <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24px\"viewBox=\"0 0 24 24\"\n",
+              "       width=\"24px\">\n",
+              "    <path d=\"M0 0h24v24H0V0z\" fill=\"none\"/>\n",
+              "    <path d=\"M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z\"/><path d=\"M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z\"/>\n",
+              "  </svg>\n",
+              "      </button>\n",
+              "      \n",
+              "  <style>\n",
+              "    .colab-df-container {\n",
+              "      display:flex;\n",
+              "      flex-wrap:wrap;\n",
+              "      gap: 12px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert {\n",
+              "      background-color: #E8F0FE;\n",
+              "      border: none;\n",
+              "      border-radius: 50%;\n",
+              "      cursor: pointer;\n",
+              "      display: none;\n",
+              "      fill: #1967D2;\n",
+              "      height: 32px;\n",
+              "      padding: 0 0 0 0;\n",
+              "      width: 32px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert:hover {\n",
+              "      background-color: #E2EBFA;\n",
+              "      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);\n",
+              "      fill: #174EA6;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert {\n",
+              "      background-color: #3B4455;\n",
+              "      fill: #D2E3FC;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert:hover {\n",
+              "      background-color: #434B5C;\n",
+              "      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);\n",
+              "      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));\n",
+              "      fill: #FFFFFF;\n",
+              "    }\n",
+              "  </style>\n",
+              "\n",
+              "      <script>\n",
+              "        const buttonEl =\n",
+              "          document.querySelector('#df-4f0f1480-227e-478d-a104-d07476a7572a button.colab-df-convert');\n",
+              "        buttonEl.style.display =\n",
+              "          google.colab.kernel.accessAllowed ? 'block' : 'none';\n",
+              "\n",
+              "        async function convertToInteractive(key) {\n",
+              "          const element = document.querySelector('#df-4f0f1480-227e-478d-a104-d07476a7572a');\n",
+              "          const dataTable =\n",
+              "            await google.colab.kernel.invokeFunction('convertToInteractive',\n",
+              "                                                     [key], {});\n",
+              "          if (!dataTable) return;\n",
+              "\n",
+              "          const docLinkHtml = 'Like what you see? Visit the ' +\n",
+              "            '<a target=\"_blank\" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'\n",
+              "            + ' to learn more about interactive tables.';\n",
+              "          element.innerHTML = '';\n",
+              "          dataTable['output_type'] = 'display_data';\n",
+              "          await google.colab.output.renderOutput(dataTable, element);\n",
+              "          const docLink = document.createElement('div');\n",
+              "          docLink.innerHTML = docLinkHtml;\n",
+              "          element.appendChild(docLink);\n",
+              "        }\n",
+              "      </script>\n",
+              "    </div>\n",
+              "  </div>\n",
+              "  "
+            ]
+          },
+          "metadata": {},
+          "execution_count": 38
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.tail()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 237
+        },
+        "id": "I9S8rWszZ0RL",
+        "outputId": "b0c70d53-6cba-49ad-8742-5671422515c0"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "                  Open        High         Low       Close   Adj Close  \\\n",
+              "Date                                                                     \n",
+              "2023-03-13  167.460007  177.350006  163.910004  174.479996  174.479996   \n",
+              "2023-03-14  177.309998  183.800003  177.139999  183.259995  183.259995   \n",
+              "2023-03-15  180.800003  182.339996  176.029999  180.449997  180.449997   \n",
+              "2023-03-16  180.369995  185.809998  178.839996  184.130005  184.130005   \n",
+              "2023-03-17  184.520004  186.220001  177.330002  180.130005  180.130005   \n",
+              "\n",
+              "               Volume  label  \n",
+              "Date                          \n",
+              "2023-03-13  167790300   True  \n",
+              "2023-03-14  143717900  False  \n",
+              "2023-03-15  145995600   True  \n",
+              "2023-03-16  121374500  False  \n",
+              "2023-03-17  132936600  False  "
+            ],
+            "text/html": [
+              "\n",
+              "  <div id=\"df-4c92ec0b-d0b4-40d2-80bb-7a8e9f2278ac\">\n",
+              "    <div class=\"colab-df-container\">\n",
+              "      <div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>Open</th>\n",
+              "      <th>High</th>\n",
+              "      <th>Low</th>\n",
+              "      <th>Close</th>\n",
+              "      <th>Adj Close</th>\n",
+              "      <th>Volume</th>\n",
+              "      <th>label</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Date</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>2023-03-13</th>\n",
+              "      <td>167.460007</td>\n",
+              "      <td>177.350006</td>\n",
+              "      <td>163.910004</td>\n",
+              "      <td>174.479996</td>\n",
+              "      <td>174.479996</td>\n",
+              "      <td>167790300</td>\n",
+              "      <td>True</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2023-03-14</th>\n",
+              "      <td>177.309998</td>\n",
+              "      <td>183.800003</td>\n",
+              "      <td>177.139999</td>\n",
+              "      <td>183.259995</td>\n",
+              "      <td>183.259995</td>\n",
+              "      <td>143717900</td>\n",
+              "      <td>False</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2023-03-15</th>\n",
+              "      <td>180.800003</td>\n",
+              "      <td>182.339996</td>\n",
+              "      <td>176.029999</td>\n",
+              "      <td>180.449997</td>\n",
+              "      <td>180.449997</td>\n",
+              "      <td>145995600</td>\n",
+              "      <td>True</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2023-03-16</th>\n",
+              "      <td>180.369995</td>\n",
+              "      <td>185.809998</td>\n",
+              "      <td>178.839996</td>\n",
+              "      <td>184.130005</td>\n",
+              "      <td>184.130005</td>\n",
+              "      <td>121374500</td>\n",
+              "      <td>False</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2023-03-17</th>\n",
+              "      <td>184.520004</td>\n",
+              "      <td>186.220001</td>\n",
+              "      <td>177.330002</td>\n",
+              "      <td>180.130005</td>\n",
+              "      <td>180.130005</td>\n",
+              "      <td>132936600</td>\n",
+              "      <td>False</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>\n",
+              "      <button class=\"colab-df-convert\" onclick=\"convertToInteractive('df-4c92ec0b-d0b4-40d2-80bb-7a8e9f2278ac')\"\n",
+              "              title=\"Convert this dataframe to an interactive table.\"\n",
+              "              style=\"display:none;\">\n",
+              "        \n",
+              "  <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24px\"viewBox=\"0 0 24 24\"\n",
+              "       width=\"24px\">\n",
+              "    <path d=\"M0 0h24v24H0V0z\" fill=\"none\"/>\n",
+              "    <path d=\"M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z\"/><path d=\"M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z\"/>\n",
+              "  </svg>\n",
+              "      </button>\n",
+              "      \n",
+              "  <style>\n",
+              "    .colab-df-container {\n",
+              "      display:flex;\n",
+              "      flex-wrap:wrap;\n",
+              "      gap: 12px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert {\n",
+              "      background-color: #E8F0FE;\n",
+              "      border: none;\n",
+              "      border-radius: 50%;\n",
+              "      cursor: pointer;\n",
+              "      display: none;\n",
+              "      fill: #1967D2;\n",
+              "      height: 32px;\n",
+              "      padding: 0 0 0 0;\n",
+              "      width: 32px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert:hover {\n",
+              "      background-color: #E2EBFA;\n",
+              "      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);\n",
+              "      fill: #174EA6;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert {\n",
+              "      background-color: #3B4455;\n",
+              "      fill: #D2E3FC;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert:hover {\n",
+              "      background-color: #434B5C;\n",
+              "      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);\n",
+              "      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));\n",
+              "      fill: #FFFFFF;\n",
+              "    }\n",
+              "  </style>\n",
+              "\n",
+              "      <script>\n",
+              "        const buttonEl =\n",
+              "          document.querySelector('#df-4c92ec0b-d0b4-40d2-80bb-7a8e9f2278ac button.colab-df-convert');\n",
+              "        buttonEl.style.display =\n",
+              "          google.colab.kernel.accessAllowed ? 'block' : 'none';\n",
+              "\n",
+              "        async function convertToInteractive(key) {\n",
+              "          const element = document.querySelector('#df-4c92ec0b-d0b4-40d2-80bb-7a8e9f2278ac');\n",
+              "          const dataTable =\n",
+              "            await google.colab.kernel.invokeFunction('convertToInteractive',\n",
+              "                                                     [key], {});\n",
+              "          if (!dataTable) return;\n",
+              "\n",
+              "          const docLinkHtml = 'Like what you see? Visit the ' +\n",
+              "            '<a target=\"_blank\" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'\n",
+              "            + ' to learn more about interactive tables.';\n",
+              "          element.innerHTML = '';\n",
+              "          dataTable['output_type'] = 'display_data';\n",
+              "          await google.colab.output.renderOutput(dataTable, element);\n",
+              "          const docLink = document.createElement('div');\n",
+              "          docLink.innerHTML = docLinkHtml;\n",
+              "          element.appendChild(docLink);\n",
+              "        }\n",
+              "      </script>\n",
+              "    </div>\n",
+              "  </div>\n",
+              "  "
+            ]
+          },
+          "metadata": {},
+          "execution_count": 39
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.drop?"
+      ],
+      "metadata": {
+        "id": "M3jl82GRasaG"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df = df.drop(\"2023-03-17\")"
+      ],
+      "metadata": {
+        "id": "PG9V4DwnZ4bV"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### 產生訓練集跟測試集"
+      ],
+      "metadata": {
+        "id": "JxptnednbWv0"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "X = df[['Open','High','Low','Close','Adj Close','Volume']]"
+      ],
+      "metadata": {
+        "id": "O4hCS89kahc_"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "y = df['label']"
+      ],
+      "metadata": {
+        "id": "iQF_pQkdbRro"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)"
+      ],
+      "metadata": {
+        "id": "15t3YA7KbU2E"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### 使用SVC預測股市漲跌"
+      ],
+      "metadata": {
+        "id": "F32AwOcjbsF1"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 1. 載入模型\n",
+        "from sklearn.svm import SVC"
+      ],
+      "metadata": {
+        "id": "cd1Cuax_bjOJ"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 2. 建立模型\n",
+        "clf = SVC()"
+      ],
+      "metadata": {
+        "id": "BAeay_ezbvPP"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 3. 訓練模型\n",
+        "clf.fit(x_train, y_train)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 75
+        },
+        "id": "IuDG8YrYbyiE",
+        "outputId": "16273643-8123-45ce-de5c-10a6898927b8"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "SVC()"
+            ],
+            "text/html": [
+              "<style>#sk-container-id-3 {color: black;background-color: white;}#sk-container-id-3 pre{padding: 0;}#sk-container-id-3 div.sk-toggleable {background-color: white;}#sk-container-id-3 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-3 label.sk-toggleable__label-arrow:before {content: \"▸\";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-3 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-3 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-3 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-3 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-3 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-3 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: \"▾\";}#sk-container-id-3 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-3 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-3 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-3 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-3 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-3 div.sk-parallel-item::after {content: \"\";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-3 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-3 div.sk-serial::before {content: \"\";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-3 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-3 div.sk-item {position: relative;z-index: 1;}#sk-container-id-3 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-3 div.sk-item::before, #sk-container-id-3 div.sk-parallel-item::before {content: \"\";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-3 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-3 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-3 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-3 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-3 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-3 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-3 div.sk-label-container {text-align: center;}#sk-container-id-3 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-3 div.sk-text-repr-fallback {display: none;}</style><div id=\"sk-container-id-3\" class=\"sk-top-container\"><div class=\"sk-text-repr-fallback\"><pre>SVC()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class=\"sk-container\" hidden><div class=\"sk-item\"><div class=\"sk-estimator sk-toggleable\"><input class=\"sk-toggleable__control sk-hidden--visually\" id=\"sk-estimator-id-3\" type=\"checkbox\" checked><label for=\"sk-estimator-id-3\" class=\"sk-toggleable__label sk-toggleable__label-arrow\">SVC</label><div class=\"sk-toggleable__content\"><pre>SVC()</pre></div></div></div></div></div>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 50
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 4. 評估模型準確率\n",
+        "clf.score(x_test, y_test)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "n0UzmQHLb2bV",
+        "outputId": "80fba5b6-280b-4b07-8c61-2ec093902087"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "0.5195007800312013"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 51
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "### 應用：使用sklearn做台積電股票漲跌預測\n",
+        "\n",
+        "使用多個技術指標來協助做預測。"
+      ],
+      "metadata": {
+        "id": "ihkgzAhdcvqv"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install talib-binary"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "dtp1VvyKb84R",
+        "outputId": "2d21be03-0dc5-4a76-e057-2b91b7b97e69"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\n",
+            "\u001b[31mERROR: Could not find a version that satisfies the requirement talib-binary (from versions: none)\u001b[0m\u001b[31m\n",
+            "\u001b[0m\u001b[31mERROR: No matching distribution found for talib-binary\u001b[0m\u001b[31m\n",
+            "\u001b[0m"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!curl -L http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz -O && tar xzvf ta-lib-0.4.0-src.tar.gz\n",
+        "!cd ta-lib && ./configure --prefix=/usr && make && make install && cd - && pip install ta-lib"
+      ],
+      "metadata": {
+        "id": "rNqhmMITgJaD"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df = yf.download('2330.tw')"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "dn555xItlCAK",
+        "outputId": "d456b451-2eef-49bc-f7dd-fe0cc2d6cf9d"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\r[*********************100%***********************]  1 of 1 completed\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.Close"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "pLxHd9WuoF7w",
+        "outputId": "4f865303-d678-4f0d-ac0c-f21547af4f44"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "Date\n",
+              "2000-03-16     71.996735\n",
+              "2000-03-17     74.344429\n",
+              "2000-03-20     71.996735\n",
+              "2000-03-21     76.300598\n",
+              "2000-03-22     75.126747\n",
+              "                 ...    \n",
+              "2023-03-13    516.000000\n",
+              "2023-03-14    510.000000\n",
+              "2023-03-15    511.000000\n",
+              "2023-03-16    505.000000\n",
+              "2023-03-17    518.000000\n",
+              "Name: Close, Length: 5737, dtype: float64"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 118
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.Close.shift(-1)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Is_qlbEPoQDx",
+        "outputId": "e235be55-b055-4a20-dcb3-e125eb0cf5fa"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "Date\n",
+              "2000-03-16     74.344429\n",
+              "2000-03-17     71.996735\n",
+              "2000-03-20     76.300598\n",
+              "2000-03-21     75.126747\n",
+              "2000-03-22     78.648293\n",
+              "                 ...    \n",
+              "2023-03-13    510.000000\n",
+              "2023-03-14    511.000000\n",
+              "2023-03-15    505.000000\n",
+              "2023-03-16    518.000000\n",
+              "2023-03-17           NaN\n",
+              "Name: Close, Length: 5737, dtype: float64"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 120
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        " df['ma5'] = df['Close'].rolling(window=5).mean()"
+      ],
+      "metadata": {
+        "id": "br5AL2bRdtK0"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.head(10)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 394
+        },
+        "id": "pnEtvf5Oevha",
+        "outputId": "9966c04e-4a70-4431-aa55-e3bb3b67cf89"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "                 Open       High        Low      Close  Adj Close  \\\n",
+              "Date                                                                \n",
+              "2000-01-04  69.649033  69.649033  68.475182  69.649033  35.203033   \n",
+              "2000-01-05  69.649033  71.214043  68.866341  71.214043  35.994049   \n",
+              "2000-01-06  70.822884  71.214043  69.649033  69.649033  35.203033   \n",
+              "2000-01-07  67.301331  68.475182  66.518639  67.692490  34.214119   \n",
+              "2000-01-10  69.649033  70.431351  68.475182  70.040192  35.400742   \n",
+              "2000-01-11  70.822884  71.605202  68.475182  68.866341  34.807426   \n",
+              "2000-01-12  69.257500  70.822884  68.866341  70.822884  35.796329   \n",
+              "2000-01-13  70.822884  70.822884  69.649033  69.649033  35.203033   \n",
+              "2000-01-14  70.431351  72.387894  70.040192  71.214043  35.994049   \n",
+              "2000-01-17  74.344429  74.344429  73.170578  73.170578  36.982941   \n",
+              "\n",
+              "                  Volume        ma5  \n",
+              "Date                                 \n",
+              "2000-01-04  200662336736        NaN  \n",
+              "2000-01-05  402466805912        NaN  \n",
+              "2000-01-06  197545715802        NaN  \n",
+              "2000-01-07  235270344752        NaN  \n",
+              "2000-01-10  276171685539  69.648958  \n",
+              "2000-01-11  277769544650  69.492419  \n",
+              "2000-01-12  216246806621  69.414188  \n",
+              "2000-01-13  147490954216  69.414188  \n",
+              "2000-01-14  288318964353  70.118498  \n",
+              "2000-01-17  155256940719  70.744576  "
+            ],
+            "text/html": [
+              "\n",
+              "  <div id=\"df-30acc724-5855-4391-b385-617ec6e7c456\">\n",
+              "    <div class=\"colab-df-container\">\n",
+              "      <div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>Open</th>\n",
+              "      <th>High</th>\n",
+              "      <th>Low</th>\n",
+              "      <th>Close</th>\n",
+              "      <th>Adj Close</th>\n",
+              "      <th>Volume</th>\n",
+              "      <th>ma5</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Date</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>2000-01-04</th>\n",
+              "      <td>69.649033</td>\n",
+              "      <td>69.649033</td>\n",
+              "      <td>68.475182</td>\n",
+              "      <td>69.649033</td>\n",
+              "      <td>35.203033</td>\n",
+              "      <td>200662336736</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2000-01-05</th>\n",
+              "      <td>69.649033</td>\n",
+              "      <td>71.214043</td>\n",
+              "      <td>68.866341</td>\n",
+              "      <td>71.214043</td>\n",
+              "      <td>35.994049</td>\n",
+              "      <td>402466805912</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2000-01-06</th>\n",
+              "      <td>70.822884</td>\n",
+              "      <td>71.214043</td>\n",
+              "      <td>69.649033</td>\n",
+              "      <td>69.649033</td>\n",
+              "      <td>35.203033</td>\n",
+              "      <td>197545715802</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2000-01-07</th>\n",
+              "      <td>67.301331</td>\n",
+              "      <td>68.475182</td>\n",
+              "      <td>66.518639</td>\n",
+              "      <td>67.692490</td>\n",
+              "      <td>34.214119</td>\n",
+              "      <td>235270344752</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2000-01-10</th>\n",
+              "      <td>69.649033</td>\n",
+              "      <td>70.431351</td>\n",
+              "      <td>68.475182</td>\n",
+              "      <td>70.040192</td>\n",
+              "      <td>35.400742</td>\n",
+              "      <td>276171685539</td>\n",
+              "      <td>69.648958</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2000-01-11</th>\n",
+              "      <td>70.822884</td>\n",
+              "      <td>71.605202</td>\n",
+              "      <td>68.475182</td>\n",
+              "      <td>68.866341</td>\n",
+              "      <td>34.807426</td>\n",
+              "      <td>277769544650</td>\n",
+              "      <td>69.492419</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2000-01-12</th>\n",
+              "      <td>69.257500</td>\n",
+              "      <td>70.822884</td>\n",
+              "      <td>68.866341</td>\n",
+              "      <td>70.822884</td>\n",
+              "      <td>35.796329</td>\n",
+              "      <td>216246806621</td>\n",
+              "      <td>69.414188</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2000-01-13</th>\n",
+              "      <td>70.822884</td>\n",
+              "      <td>70.822884</td>\n",
+              "      <td>69.649033</td>\n",
+              "      <td>69.649033</td>\n",
+              "      <td>35.203033</td>\n",
+              "      <td>147490954216</td>\n",
+              "      <td>69.414188</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2000-01-14</th>\n",
+              "      <td>70.431351</td>\n",
+              "      <td>72.387894</td>\n",
+              "      <td>70.040192</td>\n",
+              "      <td>71.214043</td>\n",
+              "      <td>35.994049</td>\n",
+              "      <td>288318964353</td>\n",
+              "      <td>70.118498</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2000-01-17</th>\n",
+              "      <td>74.344429</td>\n",
+              "      <td>74.344429</td>\n",
+              "      <td>73.170578</td>\n",
+              "      <td>73.170578</td>\n",
+              "      <td>36.982941</td>\n",
+              "      <td>155256940719</td>\n",
+              "      <td>70.744576</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>\n",
+              "      <button class=\"colab-df-convert\" onclick=\"convertToInteractive('df-30acc724-5855-4391-b385-617ec6e7c456')\"\n",
+              "              title=\"Convert this dataframe to an interactive table.\"\n",
+              "              style=\"display:none;\">\n",
+              "        \n",
+              "  <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24px\"viewBox=\"0 0 24 24\"\n",
+              "       width=\"24px\">\n",
+              "    <path d=\"M0 0h24v24H0V0z\" fill=\"none\"/>\n",
+              "    <path d=\"M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z\"/><path d=\"M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z\"/>\n",
+              "  </svg>\n",
+              "      </button>\n",
+              "      \n",
+              "  <style>\n",
+              "    .colab-df-container {\n",
+              "      display:flex;\n",
+              "      flex-wrap:wrap;\n",
+              "      gap: 12px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert {\n",
+              "      background-color: #E8F0FE;\n",
+              "      border: none;\n",
+              "      border-radius: 50%;\n",
+              "      cursor: pointer;\n",
+              "      display: none;\n",
+              "      fill: #1967D2;\n",
+              "      height: 32px;\n",
+              "      padding: 0 0 0 0;\n",
+              "      width: 32px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert:hover {\n",
+              "      background-color: #E2EBFA;\n",
+              "      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);\n",
+              "      fill: #174EA6;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert {\n",
+              "      background-color: #3B4455;\n",
+              "      fill: #D2E3FC;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert:hover {\n",
+              "      background-color: #434B5C;\n",
+              "      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);\n",
+              "      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));\n",
+              "      fill: #FFFFFF;\n",
+              "    }\n",
+              "  </style>\n",
+              "\n",
+              "      <script>\n",
+              "        const buttonEl =\n",
+              "          document.querySelector('#df-30acc724-5855-4391-b385-617ec6e7c456 button.colab-df-convert');\n",
+              "        buttonEl.style.display =\n",
+              "          google.colab.kernel.accessAllowed ? 'block' : 'none';\n",
+              "\n",
+              "        async function convertToInteractive(key) {\n",
+              "          const element = document.querySelector('#df-30acc724-5855-4391-b385-617ec6e7c456');\n",
+              "          const dataTable =\n",
+              "            await google.colab.kernel.invokeFunction('convertToInteractive',\n",
+              "                                                     [key], {});\n",
+              "          if (!dataTable) return;\n",
+              "\n",
+              "          const docLinkHtml = 'Like what you see? Visit the ' +\n",
+              "            '<a target=\"_blank\" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'\n",
+              "            + ' to learn more about interactive tables.';\n",
+              "          element.innerHTML = '';\n",
+              "          dataTable['output_type'] = 'display_data';\n",
+              "          await google.colab.output.renderOutput(dataTable, element);\n",
+              "          const docLink = document.createElement('div');\n",
+              "          docLink.innerHTML = docLinkHtml;\n",
+              "          element.appendChild(docLink);\n",
+              "        }\n",
+              "      </script>\n",
+              "    </div>\n",
+              "  </div>\n",
+              "  "
+            ]
+          },
+          "metadata": {},
+          "execution_count": 97
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df['ma20'] = df['Close'].rolling(window=20).mean()"
+      ],
+      "metadata": {
+        "id": "OFlOhm7mexXf"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.head()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 281
+        },
+        "id": "9hHsgXc-e8-Q",
+        "outputId": "6715530e-d9d9-472e-b88e-eabbd4f286ce"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "                 Open       High        Low      Close  Adj Close  \\\n",
+              "Date                                                                \n",
+              "2000-01-04  69.649033  69.649033  68.475182  69.649033  35.203033   \n",
+              "2000-01-05  69.649033  71.214043  68.866341  71.214043  35.994049   \n",
+              "2000-01-06  70.822884  71.214043  69.649033  69.649033  35.203033   \n",
+              "2000-01-07  67.301331  68.475182  66.518639  67.692490  34.214119   \n",
+              "2000-01-10  69.649033  70.431351  68.475182  70.040192  35.400742   \n",
+              "\n",
+              "                  Volume        ma5  ma20  \n",
+              "Date                                       \n",
+              "2000-01-04  200662336736        NaN   NaN  \n",
+              "2000-01-05  402466805912        NaN   NaN  \n",
+              "2000-01-06  197545715802        NaN   NaN  \n",
+              "2000-01-07  235270344752        NaN   NaN  \n",
+              "2000-01-10  276171685539  69.648958   NaN  "
+            ],
+            "text/html": [
+              "\n",
+              "  <div id=\"df-af3a157e-1232-494b-b6e0-44baa8172aef\">\n",
+              "    <div class=\"colab-df-container\">\n",
+              "      <div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>Open</th>\n",
+              "      <th>High</th>\n",
+              "      <th>Low</th>\n",
+              "      <th>Close</th>\n",
+              "      <th>Adj Close</th>\n",
+              "      <th>Volume</th>\n",
+              "      <th>ma5</th>\n",
+              "      <th>ma20</th>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>Date</th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "      <th></th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>2000-01-04</th>\n",
+              "      <td>69.649033</td>\n",
+              "      <td>69.649033</td>\n",
+              "      <td>68.475182</td>\n",
+              "      <td>69.649033</td>\n",
+              "      <td>35.203033</td>\n",
+              "      <td>200662336736</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2000-01-05</th>\n",
+              "      <td>69.649033</td>\n",
+              "      <td>71.214043</td>\n",
+              "      <td>68.866341</td>\n",
+              "      <td>71.214043</td>\n",
+              "      <td>35.994049</td>\n",
+              "      <td>402466805912</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2000-01-06</th>\n",
+              "      <td>70.822884</td>\n",
+              "      <td>71.214043</td>\n",
+              "      <td>69.649033</td>\n",
+              "      <td>69.649033</td>\n",
+              "      <td>35.203033</td>\n",
+              "      <td>197545715802</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2000-01-07</th>\n",
+              "      <td>67.301331</td>\n",
+              "      <td>68.475182</td>\n",
+              "      <td>66.518639</td>\n",
+              "      <td>67.692490</td>\n",
+              "      <td>34.214119</td>\n",
+              "      <td>235270344752</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2000-01-10</th>\n",
+              "      <td>69.649033</td>\n",
+              "      <td>70.431351</td>\n",
+              "      <td>68.475182</td>\n",
+              "      <td>70.040192</td>\n",
+              "      <td>35.400742</td>\n",
+              "      <td>276171685539</td>\n",
+              "      <td>69.648958</td>\n",
+              "      <td>NaN</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>\n",
+              "      <button class=\"colab-df-convert\" onclick=\"convertToInteractive('df-af3a157e-1232-494b-b6e0-44baa8172aef')\"\n",
+              "              title=\"Convert this dataframe to an interactive table.\"\n",
+              "              style=\"display:none;\">\n",
+              "        \n",
+              "  <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24px\"viewBox=\"0 0 24 24\"\n",
+              "       width=\"24px\">\n",
+              "    <path d=\"M0 0h24v24H0V0z\" fill=\"none\"/>\n",
+              "    <path d=\"M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z\"/><path d=\"M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z\"/>\n",
+              "  </svg>\n",
+              "      </button>\n",
+              "      \n",
+              "  <style>\n",
+              "    .colab-df-container {\n",
+              "      display:flex;\n",
+              "      flex-wrap:wrap;\n",
+              "      gap: 12px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert {\n",
+              "      background-color: #E8F0FE;\n",
+              "      border: none;\n",
+              "      border-radius: 50%;\n",
+              "      cursor: pointer;\n",
+              "      display: none;\n",
+              "      fill: #1967D2;\n",
+              "      height: 32px;\n",
+              "      padding: 0 0 0 0;\n",
+              "      width: 32px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert:hover {\n",
+              "      background-color: #E2EBFA;\n",
+              "      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);\n",
+              "      fill: #174EA6;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert {\n",
+              "      background-color: #3B4455;\n",
+              "      fill: #D2E3FC;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert:hover {\n",
+              "      background-color: #434B5C;\n",
+              "      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);\n",
+              "      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));\n",
+              "      fill: #FFFFFF;\n",
+              "    }\n",
+              "  </style>\n",
+              "\n",
+              "      <script>\n",
+              "        const buttonEl =\n",
+              "          document.querySelector('#df-af3a157e-1232-494b-b6e0-44baa8172aef button.colab-df-convert');\n",
+              "        buttonEl.style.display =\n",
+              "          google.colab.kernel.accessAllowed ? 'block' : 'none';\n",
+              "\n",
+              "        async function convertToInteractive(key) {\n",
+              "          const element = document.querySelector('#df-af3a157e-1232-494b-b6e0-44baa8172aef');\n",
+              "          const dataTable =\n",
+              "            await google.colab.kernel.invokeFunction('convertToInteractive',\n",
+              "                                                     [key], {});\n",
+              "          if (!dataTable) return;\n",
+              "\n",
+              "          const docLinkHtml = 'Like what you see? Visit the ' +\n",
+              "            '<a target=\"_blank\" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'\n",
+              "            + ' to learn more about interactive tables.';\n",
+              "          element.innerHTML = '';\n",
+              "          dataTable['output_type'] = 'display_data';\n",
+              "          await google.colab.output.renderOutput(dataTable, element);\n",
+              "          const docLink = document.createElement('div');\n",
+              "          docLink.innerHTML = docLinkHtml;\n",
+              "          element.appendChild(docLink);\n",
+              "        }\n",
+              "      </script>\n",
+              "    </div>\n",
+              "  </div>\n",
+              "  "
+            ]
+          },
+          "metadata": {},
+          "execution_count": 99
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 移除缺失值\n",
+        "df = df.dropna()"
+      ],
+      "metadata": {
+        "id": "NIz6g5jme-kP"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df['label'] = (df.Close - df.Close.shift(-1)) < 0"
+      ],
+      "metadata": {
+        "id": "EPCrfrpRlPf2"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "#### 產生訓練集跟測試集"
+      ],
+      "metadata": {
+        "id": "wGmAKoMQfdHK"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "X = df[['Open','High','Low','Close','Adj Close','Volume','ma5','ma20']]"
+      ],
+      "metadata": {
+        "id": "6sjUSbADfDaw"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "y = df['label']"
+      ],
+      "metadata": {
+        "id": "6WgHaz6LfaL9"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)"
+      ],
+      "metadata": {
+        "id": "YvHtLpNqfcB5"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "#### 使用SVC來做漲跌預測"
+      ],
+      "metadata": {
+        "id": "k1b0xct6f2G_"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 2. 建立模型\n",
+        "clf = SVC()\n",
+        "# clf = RandomForestClassifier()"
+      ],
+      "metadata": {
+        "id": "8IOOmLqkfmC7"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 3. 訓練模型\n",
+        "clf.fit(x_train, y_train)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 75
+        },
+        "id": "wlmvhqA3f-do",
+        "outputId": "7003fc36-2500-471e-b21a-67f947ffc259"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "SVC()"
+            ],
+            "text/html": [
+              "<style>#sk-container-id-9 {color: black;background-color: white;}#sk-container-id-9 pre{padding: 0;}#sk-container-id-9 div.sk-toggleable {background-color: white;}#sk-container-id-9 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-9 label.sk-toggleable__label-arrow:before {content: \"▸\";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-9 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-9 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-9 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-9 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-9 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-9 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: \"▾\";}#sk-container-id-9 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-9 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-9 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-9 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-9 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-9 div.sk-parallel-item::after {content: \"\";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-9 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-9 div.sk-serial::before {content: \"\";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-9 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-9 div.sk-item {position: relative;z-index: 1;}#sk-container-id-9 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-9 div.sk-item::before, #sk-container-id-9 div.sk-parallel-item::before {content: \"\";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-9 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-9 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-9 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-9 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-9 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-9 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-9 div.sk-label-container {text-align: center;}#sk-container-id-9 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-9 div.sk-text-repr-fallback {display: none;}</style><div id=\"sk-container-id-9\" class=\"sk-top-container\"><div class=\"sk-text-repr-fallback\"><pre>SVC()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class=\"sk-container\" hidden><div class=\"sk-item\"><div class=\"sk-estimator sk-toggleable\"><input class=\"sk-toggleable__control sk-hidden--visually\" id=\"sk-estimator-id-9\" type=\"checkbox\" checked><label for=\"sk-estimator-id-9\" class=\"sk-toggleable__label sk-toggleable__label-arrow\">SVC</label><div class=\"sk-toggleable__content\"><pre>SVC()</pre></div></div></div></div></div>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 126
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 4. 評估模型準確率\n",
+        "clf.score(x_test, y_test)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "ONXOnnxpgC1L",
+        "outputId": "91d0daeb-16ef-427d-b95c-e811c4112580"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "0.5566202090592335"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 127
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import talib as tb"
+      ],
+      "metadata": {
+        "id": "3dmmNnAbhe0D"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "K, D = tb.STOCH(df.High, df.Low, df.Close, fastk_period=9)\n",
+        "macd, macdsignal, macdhist = tb.MACD(df.Close)\n",
+        "OBV = tb.OBV(df.Close, df.Volume)\n",
+        "WILLR = tb.WILLR(df.High, df.Low, df.Close)\n",
+        "ATR = tb.ATR(df.High, df.Low, df.Close)\n",
+        "df['K'] = K\n",
+        "df['D'] = D\n",
+        "df['macd'] = macd\n",
+        "df['macdsignal'] = macdsignal\n",
+        "df['macdhist'] = macdhist\n",
+        "df['OBV'] = OBV\n",
+        "df['WILLR'] = WILLR\n",
+        "df['ATR'] = ATR"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "v58ojHnwi_yb",
+        "outputId": "be911e7d-cf96-421e-a66e-52589ef10200"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "<ipython-input-111-9bbb69b6b662>:6: SettingWithCopyWarning: \n",
+            "A value is trying to be set on a copy of a slice from a DataFrame.\n",
+            "Try using .loc[row_indexer,col_indexer] = value instead\n",
+            "\n",
+            "See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n",
+            "  df['K'] = K\n",
+            "<ipython-input-111-9bbb69b6b662>:7: SettingWithCopyWarning: \n",
+            "A value is trying to be set on a copy of a slice from a DataFrame.\n",
+            "Try using .loc[row_indexer,col_indexer] = value instead\n",
+            "\n",
+            "See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n",
+            "  df['D'] = D\n",
+            "<ipython-input-111-9bbb69b6b662>:8: SettingWithCopyWarning: \n",
+            "A value is trying to be set on a copy of a slice from a DataFrame.\n",
+            "Try using .loc[row_indexer,col_indexer] = value instead\n",
+            "\n",
+            "See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n",
+            "  df['macd'] = macd\n",
+            "<ipython-input-111-9bbb69b6b662>:9: SettingWithCopyWarning: \n",
+            "A value is trying to be set on a copy of a slice from a DataFrame.\n",
+            "Try using .loc[row_indexer,col_indexer] = value instead\n",
+            "\n",
+            "See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n",
+            "  df['macdsignal'] = macdsignal\n",
+            "<ipython-input-111-9bbb69b6b662>:10: SettingWithCopyWarning: \n",
+            "A value is trying to be set on a copy of a slice from a DataFrame.\n",
+            "Try using .loc[row_indexer,col_indexer] = value instead\n",
+            "\n",
+            "See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n",
+            "  df['macdhist'] = macdhist\n",
+            "<ipython-input-111-9bbb69b6b662>:11: SettingWithCopyWarning: \n",
+            "A value is trying to be set on a copy of a slice from a DataFrame.\n",
+            "Try using .loc[row_indexer,col_indexer] = value instead\n",
+            "\n",
+            "See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n",
+            "  df['OBV'] = OBV\n",
+            "<ipython-input-111-9bbb69b6b662>:12: SettingWithCopyWarning: \n",
+            "A value is trying to be set on a copy of a slice from a DataFrame.\n",
+            "Try using .loc[row_indexer,col_indexer] = value instead\n",
+            "\n",
+            "See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n",
+            "  df['WILLR'] = WILLR\n",
+            "<ipython-input-111-9bbb69b6b662>:13: SettingWithCopyWarning: \n",
+            "A value is trying to be set on a copy of a slice from a DataFrame.\n",
+            "Try using .loc[row_indexer,col_indexer] = value instead\n",
+            "\n",
+            "See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n",
+            "  df['ATR'] = ATR\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df = df.dropna()"
+      ],
+      "metadata": {
+        "id": "mpL3MGTyjWLQ"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "X = df[['Open','High','Low','Close','Volume','ma5','ma20','K','D','macd','macdsignal','macdhist','OBV','WILLR','ATR']]\n",
+        "y = df['label']"
+      ],
+      "metadata": {
+        "id": "IWxZn9cWjqrX"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)"
+      ],
+      "metadata": {
+        "id": "Co35We0mj7Mz"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 2. 建立模型\n",
+        "clf = SVC()\n",
+        "# clf = RandomForestClassifier()"
+      ],
+      "metadata": {
+        "id": "69qUeEH0j_Cr"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 3. 訓練模型\n",
+        "clf.fit(x_train, y_train)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 75
+        },
+        "id": "j08azadskCby",
+        "outputId": "562932aa-d36f-48e9-f01b-77799bdb2267"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "SVC()"
+            ],
+            "text/html": [
+              "<style>#sk-container-id-8 {color: black;background-color: white;}#sk-container-id-8 pre{padding: 0;}#sk-container-id-8 div.sk-toggleable {background-color: white;}#sk-container-id-8 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-8 label.sk-toggleable__label-arrow:before {content: \"▸\";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-8 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-8 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-8 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-8 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-8 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-8 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: \"▾\";}#sk-container-id-8 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-8 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-8 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-8 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-8 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-8 div.sk-parallel-item::after {content: \"\";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-8 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-8 div.sk-serial::before {content: \"\";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-8 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-8 div.sk-item {position: relative;z-index: 1;}#sk-container-id-8 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-8 div.sk-item::before, #sk-container-id-8 div.sk-parallel-item::before {content: \"\";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-8 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-8 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-8 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-8 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-8 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-8 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-8 div.sk-label-container {text-align: center;}#sk-container-id-8 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-8 div.sk-text-repr-fallback {display: none;}</style><div id=\"sk-container-id-8\" class=\"sk-top-container\"><div class=\"sk-text-repr-fallback\"><pre>SVC()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class=\"sk-container\" hidden><div class=\"sk-item\"><div class=\"sk-estimator sk-toggleable\"><input class=\"sk-toggleable__control sk-hidden--visually\" id=\"sk-estimator-id-8\" type=\"checkbox\" checked><label for=\"sk-estimator-id-8\" class=\"sk-toggleable__label sk-toggleable__label-arrow\">SVC</label><div class=\"sk-toggleable__content\"><pre>SVC()</pre></div></div></div></div></div>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 116
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 4. 評估模型準確率\n",
+        "clf.score(x_test, y_test)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "buEOWgoNkFQx",
+        "outputId": "34799731-4e75-4d3e-c5eb-5c34b32abad3"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "0.5566202090592335"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 117
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.shape"
+      ],
+      "metadata": {
+        "id": "zha9Uwhmqm5L",
+        "outputId": "3076138c-8fc3-4b76-a458-fff6138feb95",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(5737, 17)"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 128
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "ZpROCyEUqn3q"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
